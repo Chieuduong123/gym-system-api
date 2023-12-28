@@ -28,7 +28,7 @@ return [
     | sending an e-mail. You will specify which one you are using for your
     | mailers below. You are free to add additional mailers as required.
     |
-    | Supported: "smtp", "sendmail", "mailgun", "ses", "ses-v2",
+    | Supported: "smtp", "sendmail", "mailgun", "ses",
     |            "postmark", "log", "array", "failover"
     |
     */
@@ -36,38 +36,33 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
         'ses' => [
-            'transport' => 'ses',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+            'token' => env('AWS_SESSION_TOKEN'),
         ],
 
         'mailgun' => [
             'transport' => 'mailgun',
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
         ],
 
         'postmark' => [
             'transport' => 'postmark',
-            // 'message_stream_id' => null,
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
+            'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
         ],
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
         ],
 
         'log' => [

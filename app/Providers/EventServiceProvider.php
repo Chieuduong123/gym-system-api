@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Event;
 class EventServiceProvider extends ServiceProvider
 {
     /**
-     * The event to listener mappings for the application.
+     * The event listener mappings for the application.
      *
      * @var array<class-string, array<int, class-string>>
      */
@@ -18,20 +18,32 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        #=======================================================================================#
+        #			                    for update last login at                              	#
+        #=======================================================================================#        
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
     ];
+
 
     /**
      * Register any events for your application.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
         //
     }
 
     /**
      * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
      */
-    public function shouldDiscoverEvents(): bool
+    public function shouldDiscoverEvents()
     {
         return false;
     }
